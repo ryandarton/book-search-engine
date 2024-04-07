@@ -1,5 +1,5 @@
 {
-  "name": "googlebooks-app",
+  "name": "Book-Lovers Saver",
   "version": "1.0.0",
   "description": "",
   "main": "server/server.js",
@@ -17,6 +17,8 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "apollo-server-express": "^3.13.0",
+    "dotenv": "^16.4.5",
+    "mongo-db": "^1.0.2"
   }
 }
