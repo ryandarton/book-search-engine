@@ -1,5 +1,5 @@
-const { AuthenticationError } = require('apollo-server-express');
 require('dotenv').config();
+const { AuthenticationError } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 const secret = process.env.AUTH_SECRET;
 const expiration = '2h';
