@@ -10,6 +10,7 @@ const SearchBooks = () => {
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
+
   const [searchBooks, { loading, data }] = useLazyQuery(SEARCH_BOOKS);
   const [saveBook] = useMutation(SAVE_BOOK);
 
@@ -21,13 +22,15 @@ const SearchBooks = () => {
     if (data) {
       setSearchedBooks(data.searchBooks || []);
     }
-  }, [data, searchInput]);
+  }, [data]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
     if (!searchInput) {
       return false;
     }
+
     try {
       await searchBooks({ variables: { query: searchInput } });
       setSearchInput('');
@@ -38,11 +41,15 @@ const SearchBooks = () => {
 
   const handleSaveBook = async (bookId) => {
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+
     const { __typename, ...bookDataWithoutTypename } = bookToSave;
+
     const token = Auth.loggedIn() ? Auth.getToken() : null;
+
     if (!token) {
       return false;
     }
+
     try {
       await saveBook({ variables: { bookData: bookDataWithoutTypename } });
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
@@ -77,27 +84,16 @@ const SearchBooks = () => {
           </Form>
         </Container>
       </div>
+
       <Container>
         <h2 className='pt-5'>
-          {loading
-            ? 'Loading...'
-            : searchedBooks.length
-            ? `Viewing
-          ${searchedBooks.length} results:`
-            : 'Search for a book to begin'}
+          {loading ? 'Loading...' : searchedBooks.length ? `Viewing ${searchedBooks.length} results:` : 'Search for a book to begin'}
         </h2>
         <Row>
           {searchedBooks.map((book) => (
             <Col md='4' key={book.bookId}>
               <Card border='dark'>
-                {book.image && (
-                  <Card.Img
-                    src={book.image}
-                    alt={`The cover for
-                ${book.title}`}
-                    variant='top'
-                  />
-                )}
+                {book.image && <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />}
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>
                   <p className='small'>Authors: {book.authors}</p>
@@ -113,7 +109,7 @@ const SearchBooks = () => {
                           className='btn-info'
                           onClick={() => handleSaveBook(book.bookId)}
                         >
-                          {savedBookIds.includes(book.bookId) ? 'Saved!' : 'Save thisBook!'}
+                          {savedBookIds.includes(book.bookId) ? 'Saved!' : 'Save this Book!'}
                         </Button>
                       </div>
                     )}
