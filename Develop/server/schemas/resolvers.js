@@ -56,7 +56,6 @@ const resolvers = {
     saveBook: async (parent, { bookData }, context) => {
       if (context.user) {
         const updatedUser = await User.findByIdAndUpdate(context.user._id, { $push: { savedBooks: bookData } }, { new: true });
-        console.log(updatedUser);
         return updatedUser;
       }
       throw new AuthenticationError('Error with Authentication!');
