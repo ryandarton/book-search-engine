@@ -3,7 +3,8 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import { Container, Col, Form, Button, Card, Row } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { searchGoogleBooks, saveBook } from '../utils/API';
+import { SEARCH_BOOKS } from '../utils/queries';
+import { SAVE_BOOK } from '../utils/mutations';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
 const SearchBooks = () => {
@@ -11,8 +12,8 @@ const SearchBooks = () => {
   const [searchInput, setSearchInput] = useState('');
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
-  const [searchBooks, { loading, data }] = useLazyQuery(searchGoogleBooks);
-  const [saveTheBook] = useMutation(saveBook);
+  const [searchBooks, { loading, data }] = useLazyQuery(SEARCH_BOOKS);
+  const [saveBook] = useMutation(SAVE_BOOK);
 
   useEffect(() => {
     return () => saveBookIds(savedBookIds);
@@ -51,7 +52,7 @@ const SearchBooks = () => {
     }
 
     try {
-      await saveTheBook({ variables: { bookData: bookDataWithoutTypename } });
+      await saveBook({ variables: { bookData: bookDataWithoutTypename } });
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error(err);
