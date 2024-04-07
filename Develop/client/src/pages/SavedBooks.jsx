@@ -8,16 +8,13 @@ import { removeBookId } from '../utils/localStorage';
 const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME);
   const [removeBook] = useMutation(REMOVE_BOOK);
-
   const userData = data?.me || {};
 
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-
     if (!token) {
       return false;
     }
-
     try {
       await removeBook({
         variables: { bookId },
@@ -33,7 +30,6 @@ const SavedBooks = () => {
           });
         },
       });
-
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
@@ -62,7 +58,14 @@ const SavedBooks = () => {
             return (
               <Col md='4' key={book.bookId}>
                 <Card border='dark'>
-                  {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
+                  {book.image ? (
+                    <Card.Img
+                      src={book.image}
+                      alt={`The cover for
+                  ${book.title}`}
+                      variant='top'
+                    />
+                  ) : null}
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
                     <p className='small'>Authors: {book.authors}</p>
