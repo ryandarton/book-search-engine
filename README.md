@@ -2,6 +2,11 @@
 
 The Book-Lovers Saver is a comprehensive web application built using the MERN stack (MongoDB, Express.js, React.js, Node.js). It empowers users to explore and discover books through the Google Books API, allowing them to save their favorite books for future reference. The application leverages Apollo Server for efficient GraphQL API management and utilizes Apollo Client to seamlessly handle state within the React frontend.
 
+## The Site:
+
+https://book-search-engine-1-j3e3.onrender.com/
+![Screenshot](/client/src/assets/screenshot.png)
+
 ## Key Features:
 
 Seamless book search functionality powered by the Google Books API
